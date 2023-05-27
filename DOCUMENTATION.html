@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modding API Documentation</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #0f9d58;
+        }
+        
+        h2 {
+            color: #f4b400;
+        }
+        
+        code {
+            background-color: #333;
+            color: #FFF;
+            padding: 2px 5px;
+            font-size: 14px;
+        }
+        
+        pre {
+            background-color: #333;
+            color: #FFF;
+            padding: 10px;
+            overflow: auto;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: #FFF;
+            padding: 0;
+            font-size: 14px;
+        }
+        
+        .example {
+            background-color: #222;
+            color: #FFF;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modding API Documentation</h1>
+    <p>The Modding API provides a set of functions that allow you to extend and modify the functionality of your game through mods. This documentation outlines the available functions and their usage.</p>
+    
+    <h2>Getting Started</h2>
+    <p>To use the Modding API, follow these steps:</p>
+    <ol>
+        <li>Create a ModLoader object in your game scene.</li>
+        <li>Place your mod scripts in a folder named <code>Mods</code> within your project's Assets folder.</li>
+        <li>Each mod script should be written in Lua and have a <code>.lua</code> file extension.</li>
+    </ol>
+    
+    <h2>API Functions</h2>
+    
+    <h3>1. SpawnGameObject</h3>
+    <pre><code>public void SpawnGameObject(GameObject prefab, Vector3 position)</code></pre>
+    <p>Spawns a game object at the specified position.</p>
+    <ul>
+        <li><code>prefab</code>: The prefab of the game object to spawn.</li>
+        <li><code>position</code>: The position in the world where the game object should be spawned.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>ModLoader.Instance.SpawnGameObject(Resources.Load("CubePrefab"), Vector3.zero);</code></pre>
+    </div>
+    
+    <h3>2. DeleteGameObject</h3>
+    <pre><code>public void DeleteGameObject(GameObject gameObject)</code></pre>
+    <p>Deletes a game object from the scene.</p>
+    <ul>
+        <li><code>gameObject</code>: The game object to delete.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>GameObject obj = GameObject.FindWithTag("ObjectToDelete");
+if (obj != null)
+{
+    ModLoader.Instance.DeleteGameObject(obj);
+}</code></pre>
+    </div>
+    
+    <h3>3. AddUiCanvas</h3>
+    <pre><code>public Canvas AddUiCanvas(string canvasName)</code></pre>
+    <p>Adds a UI canvas to the scene.</p>
+    <ul>
+        <li><code>canvasName</code>: The name of the canvas.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>Canvas canvas = ModLoader.Instance.AddUiCanvas("UICanvas");</code></pre>
+    </div>
+    
+    <h3>4. AddUiText</h3>
+    <pre><code>public Text AddUiText(Canvas canvas, string textContent)</code></pre>
+    <p>Adds a UI text element to a canvas.</p>
+    <ul>
+        <li><code>canvas</code>: The canvas to which the text element should be added.</li>
+        <li><code>textContent</code>: The content of the text element.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>Text textElement = ModLoader.Instance.AddUiText(canvas, "Hello, World!");</code></pre>
+    </div>
+    
+    <h3>5. AddUiButton</h3>
+    <pre><code>public Button AddUiButton(Canvas canvas, string buttonLabel)</code></pre>
+    <p>Adds a UI button element to a canvas.</p>
+    <ul>
+        <li><code>canvas</code>: The canvas to which the button element should be added.</li>
+        <li><code>buttonLabel</code>: The label text of the button.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>Button buttonElement = ModLoader.Instance.AddUiButton(canvas, "Click Me!");</code></pre>
+    </div>
+    
+    <h3>6. AddDropdown</h3>
+    <pre><code>public Dropdown AddDropdown(Canvas canvas, string dropdownName, string[] options, Action&lt;int&gt; onSelectionChanged)</code></pre>
+    <p>Adds a UI dropdown element to a canvas.</p>
+    <ul>
+        <li><code>canvas</code>: The canvas to which the dropdown element should be added.</li>
+        <li><code>dropdownName</code>: The name of the dropdown element.</li>
+        <li><code>options</code>: An array of strings representing the dropdown options.</li>
+        <li><code>onSelectionChanged</code>: A callback function to be invoked when the dropdown selection changes. The function should take an integer parameter representing the selected index.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>string[] options = { "Option 1", "Option 2", "Option 3" };
+Action&lt;int&gt; onSelectionChanged = index => Debug.Log("Selected option: " + options[index]);
+Dropdown dropdownElement = ModLoader.Instance.AddDropdown(canvas, "Dropdown", options, onSelectionChanged);</code></pre>
+    </div>
+    
+    <h3>7. AddLight</h3>
+    <pre><code>public Light AddLight(Vector3 position, Color color)</code></pre>
+    <p>Adds a light source to the scene.</p>
+    <ul>
+        <li><code>position</code>: The position in the world where the light should be placed.</li>
+        <li><code>color</code>: The color of the light.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>Color lightColor = new Color(1f, 1f, 0f);
+Light light = ModLoader.Instance.AddLight(Vector3.zero, lightColor);</code></pre>
+    </div>
+    
+    <h3>8. ChangeTag</h3>
+    <pre><code>public void ChangeTag(GameObject gameObject, string newTag)</code></pre>
+    <p>Changes the tag of a game object.</p>
+    <ul>
+        <li><code>gameObject</code>: The game object whose tag should be changed.</li>
+        <li><code>newTag</code>: The new tag value.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>GameObject obj = GameObject.FindWithTag("OldTag");
+if (obj != null)
+{
+    ModLoader.Instance.ChangeTag(obj, "NewTag");
+}</code></pre>
+    </div>
+    
+    <h3>9. ChangeLayer</h3>
+    <pre><code>public void ChangeLayer(GameObject gameObject, int newLayer)</code></pre>
+    <p>Changes the layer of a game object.</p>
+    <ul>
+        <li><code>gameObject</code>: The game object whose layer should be changed.</li>
+        <li><code>newLayer</code>: The new layer value.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>GameObject obj = GameObject.FindWithTag("Object");
+if (obj != null)
+{
+    int newLayer = LayerMask.NameToLayer("NewLayer");
+    ModLoader.Instance.ChangeLayer(obj, newLayer);
+}</code></pre>
+    </div>
+    
+    <h3>10. AddTag</h3>
+    <pre><code>public void AddTag(string tagName)</code></pre>
+    <p>Adds a new tag to the game object.</p>
+    <ul>
+        <li><code>tagName</code>: The name of the new tag.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>ModLoader.Instance.AddTag("NewTag");</code></pre>
+    </div>
+    
+    <h3>11. AddLayer</h3>
+    <pre><code>public void AddLayer(string layerName)</code></pre>
+    <p>Adds a new layer to the game object.</p>
+    <ul>
+        <li><code>layerName</code>: The name of the new layer.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>ModLoader.Instance.AddLayer("NewLayer");</code></pre>
+    </div>
+    
+    <h3>12. InsertScriptToGameObject</h3>
+    <pre><code>public void InsertScriptToGameObject(GameObject gameObject, string script)</code></pre>
+    <p>Inserts a custom Lua script to a game object.</p>
+    <ul>
+        <li><code>gameObject</code>: The game object to which the script should be attached.</li>
+        <li><code>script</code>: The Lua script to be executed.</li>
+    </ul>
+    <div class="example">
+        <h4>Example:</h4>
+        <pre><code>string customScript = "print('Custom script executed!')";
+ModLoader.Instance.InsertScriptToGameObject(gameObject, customScript);</code></pre>
+    </div>
+    
+
+</body>
+</html>
